@@ -1,0 +1,19 @@
+[Unit]
+Description=Conference Phone Audio Recorder
+After=sound.target
+BindsTo=sound.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/python3 /home/pi/recorder/polycom_recorder/recorder.py
+User=pi
+Restart=on-failure
+StartLimitInterval=60
+StartLimitBurst=3
+
+# Avoid interrupting recordings. Conference calls longer than one hour
+# past the attempt to stop the service are on their own.
+TimeoutStopSec=60min
