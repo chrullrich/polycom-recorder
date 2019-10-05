@@ -9,8 +9,6 @@ import shutil
 import datetime
 import selectors
 
-from systemd import daemon
-
 
 PERSIST_DIR = "/usr/local/recorder/recordings"
 BUFFER_SIZE = 4 * 1024
@@ -70,8 +68,6 @@ def persist_recording(recfile, end_dt):
 
 def main():
     signal.signal(signal.SIGINT, sigint)
-
-    daemon.notify("READY=1")
 
     rec_environ = os.environ.copy()
     rec_environ["AUDIODRIVER"] = AUDIODRIVER

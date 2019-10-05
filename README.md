@@ -5,25 +5,23 @@ conference phone, but any audio input, with sound activation.
 
 ## System Requirements
 
-* Anything, but most usefully a  Raspberry Pi running Raspbian.
+* Anything, but most usefully a Raspberry Pi.
 * Some kind of audio hardware that provides an input channel.
-* The `python3-systemd` package.
 
 ## Usage
 
-* Clone this repository as `/home/pi/recorder`.
-* Create the `recorder/recordings` directory.
+* Clone this repository.
+* Create the `/usr/local/recorder/recordings` directory.
 * Determine how to set up SoX to work with your audio hardware and
   enter the result in `recorder.py` (search for `AUDIODRIVER`).
-* Install, in whichever manner seems most promising to you, the systemd service
-  `polycom-recorder.service`.
-* Run the service.
+* Arrange, in whichever manner seems most promising to you, for
+  `recorder.py` to run on startup, and probably start it.
 * Provide audio input. Recording will start as soon as any sound above rustling
   leaves is heard, and stop ten seconds after the last such sound.
   
 ## Accessing Recordings
 
-* Recordings are stored in the `recorder/recordings` directory mentioned above.
+* Recordings are stored in `/usr/local/recorder/recordings`.
 * You may want to set up some kind of remote access.
 * With a web server, you can make use of the `index.html` that is maintained in
   the same directory and updated after each recording ends.
@@ -32,8 +30,8 @@ conference phone, but any audio input, with sound activation.
   and you have no immediate better idea than to put Samba and Apache on your
   Pi in order to handle authentication, you can just do:
   
-      Alias / /home/pi/recorder/recordings/
-      <Directory "/home/pi/recorder/recordings">
+      Alias / /usr/local/recorder/recordings/
+      <Directory "/usr/local/recorder/recordings">
           AuthType GSSAPI
           AuthName polycom-rec
           Require unix-group DOMAIN\thisgroup
