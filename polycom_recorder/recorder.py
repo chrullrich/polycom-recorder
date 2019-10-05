@@ -12,9 +12,12 @@ import selectors
 from systemd import daemon
 
 
-EFFECTS_FILE = os.path.join(os.path.dirname(__file__), "effects")
-PERSIST_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "recordings")
+PERSIST_DIR = "/usr/local/recorder/recordings"
 BUFFER_SIZE = 4 * 1024
+
+AUDIODRIVER = "alsa"
+AUDIODEV= "hw:1"
+EFFECTS_FILE = os.path.join(os.path.dirname(__file__), "effects")
 
 REC_OPTIONS = [
     "-q",               # no output
@@ -71,8 +74,8 @@ def main():
     daemon.notify("READY=1")
 
     rec_environ = os.environ.copy()
-    rec_environ["AUDIODRIVER"] = "alsa"
-    rec_environ["AUDIODEV"] = "hw:1"
+    rec_environ["AUDIODRIVER"] = AUDIODRIVER
+    rec_environ["AUDIODEV"] = AUDIODEV
 
     while (not quit):
         global busy

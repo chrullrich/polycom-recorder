@@ -7,7 +7,7 @@ import subprocess
 import datetime
 
 
-PERSIST_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "recordings")
+PERSIST_DIR = "/usr/local/recorder/recordings"
 PAGE_HEAD = """<!DOCTYPE html>
 <head>
 <title>Conference Recordings</title>
