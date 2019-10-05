@@ -6,8 +6,9 @@ import glob
 import subprocess
 import datetime
 
+from .recorder import PERSIST_DIR
 
-PERSIST_DIR = "/usr/local/recorder/recordings"
+
 PAGE_HEAD = """<!DOCTYPE html>
 <head>
 <title>Conference Recordings</title>
