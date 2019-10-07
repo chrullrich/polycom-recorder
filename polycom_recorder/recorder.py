@@ -68,6 +68,8 @@ def persist_recording(recfile, end_dt):
 
 def main():
     signal.signal(signal.SIGINT, sigint)
+    signal.signal(signal.SIGTERM, sigint)
+    signal.signal(signal.SIGQUIT, sigint)
 
     rec_environ = os.environ.copy()
     rec_environ["AUDIODRIVER"] = AUDIODRIVER
