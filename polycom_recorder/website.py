@@ -6,7 +6,7 @@ import glob
 import subprocess
 import datetime
 
-from .recorder import PERSIST_DIR
+from .recorder import PERSIST_DIR, REC_FILE_EXT
 
 
 PAGE_HEAD = """<!DOCTYPE html>
@@ -42,7 +42,7 @@ PAGE_FOOT = """</body>
 
 def main():
     os.chdir(PERSIST_DIR)
-    recordings = glob.glob("*.ogg")
+    recordings = glob.glob(f"Recording_*")
 
     with open("index.html", "wt") as htmlfile:
         out = lambda text: print(text, file=htmlfile)

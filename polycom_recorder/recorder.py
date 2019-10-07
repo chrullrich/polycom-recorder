@@ -13,14 +13,16 @@ import selectors
 PERSIST_DIR = "/usr/local/recorder/recordings"
 BUFFER_SIZE = 4 * 1024
 
-AUDIODRIVER = "alsa"
-AUDIODEV= "hw:1"
+AUDIODRIVER = "ossdsp"
+AUDIODEV= "default"
 EFFECTS_FILE = os.path.join(os.path.dirname(__file__), "effects")
+REC_FILE_TYPE = "mp3"
+REC_FILE_EXT = ".mp3"
 
 REC_OPTIONS = [
-    "-q",               # no output
-    "-t", "ogg",        # file format
-    "-r", "44100",      # sample rate (sox does not go below with ogg)
+    "-q",                 # no output
+    "-t", REC_FILE_TYPE,  # file format
+    "-r", "44100",        # sample rate (sox does not go below with ogg)
     "--effects-file", EFFECTS_FILE,
 ]
 
@@ -50,7 +52,7 @@ def recording_duration(fn):
 
 def persist_recording(recfile, end_dt):
     recfile.seek(0, os.SEEK_SET)
-    persist_fd, persist_fn = tempfile.mkstemp(".ogg", "rec_", PERSIST_DIR)
+    persist_fd, persist_fn = tempfile.mkstemp(REC_FILE_EXT, "rec_", PERSIST_DIR)
     os.fchmod(persist_fd, 0o644)
     os.close(persist_fd)
     persist_file = open(persist_fn, "w+b")
@@ -60,10 +62,10 @@ def persist_recording(recfile, end_dt):
     duration = recording_duration(persist_fn)
     start_dt = end_dt - datetime.timedelta(seconds=duration)
 
-    filename = os.path.join(PERSIST_DIR, f"Recording_{start_dt:%Y%m%dT%H%M%S}-{end_dt:%H%M%S}.ogg")
+    filename = os.path.join(PERSIST_DIR, f"Recording_{start_dt:%Y%m%dT%H%M%S}-{end_dt:%H%M%S}{REC_FILE_EXT}")
     os.rename(persist_fn, filename)
 
-    subprocess.run(["python3", os.path.join(os.path.dirname(__file__), "website.py")])
+    subprocess.run(["polycom-updater"])
 
 
 def main():
@@ -79,7 +81,7 @@ def main():
         global busy
         busy = False
 
-        with tempfile.TemporaryFile(suffix=".ogg", prefix="rec_") as outfile:
+        with tempfile.TemporaryFile(suffix=REC_FILE_EXT, prefix="rec_") as outfile:
             try:
                 rec_args = ["rec"] + REC_OPTIONS + ["-"]
 

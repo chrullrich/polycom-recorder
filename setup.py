@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="polycom-recorder",
-    version="0.0.2",
+    version="0.1.0",
     packages=[ "polycom_recorder" ],
     package_data={
         "polycom_recorder": [ 'effects' ],
