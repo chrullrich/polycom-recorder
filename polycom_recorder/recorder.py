@@ -120,7 +120,6 @@ def main():
 
             finally:
                 if (rec.poll() is None):
-                    print("killing rec", file=sys.stderr)
                     rec.send_signal(signal.SIGINT)
 
             persist_recording(outfile, datetime.datetime.now())
